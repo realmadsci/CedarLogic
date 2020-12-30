@@ -123,6 +123,7 @@ void gateImage::setViewport() {
 
 // Print the canvas contents to a bitmap:
 void gateImage::generateImage() {
+/*
 //WARNING!!! Heavily platform-dependent code ahead! This only works in MS Windows because of the
 // DIB Section OpenGL rendering.
 
@@ -203,6 +204,7 @@ void gateImage::generateImage() {
     ::wglDeleteContext( hRC );
 	myDC.SelectObject(wxNullBitmap);
 	gImage = theBM.ConvertToImage();
+	*/
 }
 
 void gateImage::renderMap() {

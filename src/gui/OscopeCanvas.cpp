@@ -449,7 +449,8 @@ void OscopeCanvas::UpdateMenu()
 }
 
 // Print the canvas contents to a bitmap:
-wxImage OscopeCanvas::generateImage(){ 
+wxImage OscopeCanvas::generateImage(){
+/*
 //WARNING!!! Heavily platform-dependent code ahead! This only works in MS Windows because of the
 // DIB Section OpenGL rendering.
 
@@ -523,4 +524,6 @@ wxImage OscopeCanvas::generateImage(){
     ::wglDeleteContext( hRC );
 	myDC.SelectObject(wxNullBitmap);
 	return theBM.ConvertToImage();
+*/
+	return wxImage();
 }

@@ -105,6 +105,7 @@ void klsGLCanvas::updateMiniMap() {
 
 // Print the canvas contents to a bitmap:
 wxImage klsGLCanvas::renderToImage( unsigned long width, unsigned long height, unsigned long colorDepth, bool noColor ) {
+/*
 //WARNING!!! Heavily platform-dependent code ahead! This only works in MS Windows because of the
 // DIB Section OpenGL rendering.
 
@@ -187,6 +188,8 @@ wxImage klsGLCanvas::renderToImage( unsigned long width, unsigned long height, u
 	SetCurrent();
 	
 	return theBM.ConvertToImage();
+	*/
+	return wxImage();
 }
 
 
