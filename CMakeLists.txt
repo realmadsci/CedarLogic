@@ -14,6 +14,9 @@ add_definitions(
 )
 
 
+# Build Release with Debug symbols included.
+# I don't know why, but something asserts about unicode nonsense if this is not included?
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
 # Point at the desired install of wxWidgets
 # Not sure if the "toolkit" is required or not.
