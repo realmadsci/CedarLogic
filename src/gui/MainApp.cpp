@@ -11,6 +11,9 @@
 #include "MainApp.h"
 #include "MainFrame.h"
 #include "wx/cmdline.h"
+#include <wx/filename.h>
+#include <wx/stdpaths.h>
+
 #include "../version.h"
 
 IMPLEMENT_APP(MainApp)
@@ -96,21 +99,11 @@ bool MainApp::OnInit()
 void MainApp::loadSettings() {
 
 	// Get app full path.
-	HMODULE hModule = GetModuleHandle(NULL);
-	CHAR path[MAX_PATH];
-	GetModuleFileName(hModule, path, MAX_PATH);
+	wxFileName f(wxStandardPaths::Get().GetExecutablePath());
 
 	// Find path to exe so that files can be loaded relative to it
 	// even when the program is run from somewhere else.
-	pathToExe = path;
-	while (!pathToExe.empty()) {
-		if (pathToExe.back() != '/' && pathToExe.back() != '\\') {
-			pathToExe.pop_back();
-		}
-		else {
-			break;
-		}
-	}
+	wxString path(f.GetPath());
 
 	if (pathToExe.find("Debug") != string::npos || pathToExe.find("Release") != string::npos) {
 		pathToExe = "";
