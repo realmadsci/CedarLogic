@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.12)
 project(CedarLogic)
 
 
@@ -13,6 +13,16 @@ add_definitions(
 	-DCEDARLOGIC_PATCH=${CEDARLOGIC_PATCH}
 )
 
+
+
+# Point at the desired install of wxWidgets
+# Not sure if the "toolkit" is required or not.
+#set(wxWidgets_CONFIG_OPTIONS --prefix=/home/spragbe/cl/wxWidgets/buildgtk)
+set(wxWidgets_USE_UNICODE OFF CACHE BOOL "Use Unicode")
+find_package(wxWidgets REQUIRED gl core base html aui adv)
+include(${wxWidgets_USE_FILE})
+
+find_package(OpenGL REQUIRED OpenGL)
 
 ### 
 ### *.cpp and *.h files
@@ -148,64 +158,38 @@ if ("$ENV{WXWIN}" STREQUAL "")
 endif()
 set(wxwin "$ENV{WXWIN}" CACHE STRING "Path to wxWidgets install folder.")
 
-# Set special variables read-in by functions from LibraryTools module.
-set(wx_widgets_include
-    "${wxwin}/include"
-)
-set(wx_widgets_linklibs
-    "comctl32.lib"
-    "rpcrt4.lib"
-    "winmm.lib"
-    "wsock32.lib"
-    "opengl32.lib"
-    "glu32.lib"
-)
-
-# Use the variables above to define the cmake library targets.
-set(Libraries
-    wx_widgets
-)
-import_libraries(${Libraries})
-
-
 ###
 ### Build Config.
 ###
 
-link_directories("${wxwin}/lib/vc_lib")
-
 add_executable(CedarLogic WIN32 ${Sources})
-
 target_link_libraries(CedarLogic
-    PRIVATE ${Libraries})
+	PRIVATE
+	${wxWidgets_LIBRARIES}
+	OpenGL::OpenGL
+	OpenGL::GLU)
 
 target_include_directories(CedarLogic
     PRIVATE
         src
-        "${wxwin}/include/msvc"
-        "${wxwin}/contrib/include"
+	${wxWidgets_INCLUDE_DIRS}
 )
 
 target_compile_features(CedarLogic
     PRIVATE cxx_std_11)
 
+message(STATUS "Flags: ${wxWidgets_CXX_FLAGS}")
 target_compile_options(CedarLogic
     PRIVATE
-        /FI"${wxwin}/include/msvc/wx/setup.h"
-        /FI"${wxwin}/include/wx/wxprec.h"
-        /MP
+    ${wxWidgets_CXX_FLAGS}
 )
 
 target_compile_definitions(CedarLogic
     PRIVATE
         "_PRODUCTION_"
-        "WIN32"
         "STRICT"
-        "__WXMSW__"
-        "__WX__"
-        "__WXDEBUG__"
-        "_WINDOWS"
         "_CRT_SECURE_NO_DEPRECATE"
+	${wxWidgets_DEFINITIONS}
 )
 
 ###
